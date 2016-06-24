@@ -59,7 +59,7 @@ export default Ember.Component.extend({
     if (this.get('grabCursor')) {
       options.grabCursor = true;
     }
-    
+
     if (this.get('breakpoints')) {
       options.breakpoints = this.get('breakpoints');
     }
@@ -116,9 +116,13 @@ export default Ember.Component.extend({
     });
   }),
 
-  initSwiper: Ember.on('didInsertElement', function() {
+  initSwiper() {
     this.set('swiper', new Swiper(`#${this.get('elementId')}`, this.get('swiperOptions')));
     this.set('registerAs', this);
-  })
+  },
 
+  init() {
+    this._super(...arguments);
+    Ember.run.scheduleOnce('afterRender', this, this.initSwiper);
+  }
 });
